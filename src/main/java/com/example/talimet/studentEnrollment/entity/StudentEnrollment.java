@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -29,6 +31,7 @@ public class StudentEnrollment {
 
     @ManyToOne
     @JoinColumn(name = "group_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Group group;
 
     private LocalDate joinedAt;

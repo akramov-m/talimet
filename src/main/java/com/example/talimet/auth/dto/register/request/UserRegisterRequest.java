@@ -5,6 +5,7 @@ public record UserRegisterRequest(
         String lastName,
         String phoneNumber,
         String userName,
-        String password
+        String password,
+        String role
 ) {
 }

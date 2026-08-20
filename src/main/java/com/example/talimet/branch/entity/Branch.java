@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.UUID;
 
@@ -26,5 +28,6 @@ public class Branch {
 
     @ManyToOne
     @JoinColumn(name = "center_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private EduCenter eduCenter;
 }

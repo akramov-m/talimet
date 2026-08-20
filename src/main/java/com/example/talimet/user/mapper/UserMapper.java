@@ -3,25 +3,28 @@ package com.example.talimet.user.mapper;
 import com.example.talimet.auth.dto.login.response.UserLoginResponse;
 import com.example.talimet.auth.dto.register.request.UserRegisterRequest;
 import com.example.talimet.auth.dto.register.response.UserRegisterResponse;
+import com.example.talimet.common.enums.AccountStatus;
 import com.example.talimet.common.enums.Role;
 import com.example.talimet.user.dto.response.UserResponseDto;
+import com.example.talimet.user.dto.response.UserStatusChangedResponse;
 import com.example.talimet.user.entity.User;
 
 public class UserMapper {
-    public static User dtoToEntity (UserRegisterRequest dto){
+    public static User dtoToEntity (UserRegisterRequest dto, AccountStatus status){
         User user = new User();
         user.setFirstName(dto.firstName());
         user.setLastName(dto.lastName());
         user.setPassword(dto.password());
         user.setUsername(dto.userName());
         user.setPhoneNumber(dto.phoneNumber());
-        user.setRole(Role.STUDENT);
+        user.setRole(Role.valueOf(dto.role().toUpperCase()));
+        user.setStatus(status);
         return user;
     }
 
     public static UserLoginResponse entityToLoginDto(User entity,String message){
         return new UserLoginResponse(
-               entity.getFirstName(), message
+                entity.getId(), entity.getFirstName(),entity.getRole(), message
         );
     }
 
@@ -41,6 +44,13 @@ public class UserMapper {
                 entity.getPhoneNumber(),
                 entity.getPassword(),
                 entity.getRole().toString()
+        );
+    }
+
+    public static UserStatusChangedResponse entityToStatusDto(User entity,String message){
+        return new UserStatusChangedResponse(
+                entity.getFirstName()+ " " +entity.getLastName(),
+                message
         );
     }
 }

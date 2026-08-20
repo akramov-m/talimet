@@ -1,6 +1,7 @@
 package com.example.talimet.user.entity;
 
 
+import com.example.talimet.common.enums.AccountStatus;
 import com.example.talimet.common.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,4 +31,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private AccountStatus status;
 }

@@ -1,6 +1,6 @@
 package com.example.talimet.studentEnrollment.dto.response;
 
-public record StudentEnrollmentResponseDto(
+public record StudentEnrollmentCreateResponseDto(
         String message
 ) {
 }
