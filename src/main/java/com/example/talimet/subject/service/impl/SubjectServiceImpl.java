@@ -23,12 +23,11 @@ public class SubjectServiceImpl implements SubjectService {
     private final BranchRepository branchRepository;
 
     @Override
-    public Subject create(SubjectRequestDto dto) {
-        Branch branch = branchRepository.findById(dto.branchId())
+    public Subject create(SubjectRequestDto dto,UUID branchId) {
+        Branch branch = branchRepository.findById(branchId)
                 .orElseThrow(()-> new NotFoundException("Branch not found!"));
         Subject subject = SubjectMapper.dtoToEntity(dto,branch);
-        Subject savedSubject = subjectRepository.save(subject);
-        return savedSubject;
+        return subjectRepository.save(subject);
     }
 
     @Override

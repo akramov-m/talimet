@@ -1,4 +1,4 @@
-package com.example.talimet.groupLesson.entity;
+package com.example.talimet.lesson.entity;
 
 import com.example.talimet.group.entity.Group;
 import jakarta.persistence.*;
@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 

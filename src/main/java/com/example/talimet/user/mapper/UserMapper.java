@@ -5,6 +5,7 @@ import com.example.talimet.auth.dto.register.request.UserRegisterRequest;
 import com.example.talimet.auth.dto.register.response.UserRegisterResponse;
 import com.example.talimet.common.enums.AccountStatus;
 import com.example.talimet.common.enums.Role;
+import com.example.talimet.user.dto.response.UserDto;
 import com.example.talimet.user.dto.response.UserResponseDto;
 import com.example.talimet.user.dto.response.UserStatusChangedResponse;
 import com.example.talimet.user.entity.User;
@@ -44,6 +45,15 @@ public class UserMapper {
                 entity.getPhoneNumber(),
                 entity.getPassword(),
                 entity.getRole().toString()
+        );
+    }
+    public static UserDto entityToUserDto(User entity){
+        return new UserDto(
+                entity.getId().toString(),
+                entity.getFirstName(),
+                entity.getLastName(),
+                entity.getUsername(),
+                entity.getPhoneNumber()
         );
     }
 

@@ -4,6 +4,7 @@ import com.example.talimet.common.enums.AccountStatus;
 import com.example.talimet.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +20,10 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     FROM User u
     """)
     Long countOfUsers();
+
+    @Query("""
+    SELECT u FROM User u
+    WHERE u.username=:username AND u.role = 'STUDENT'
+    """)
+    Optional<User> getStudent(@Param("username") String username);
 }

@@ -32,8 +32,8 @@ public class SubjectController {
     private final SubjectService service;
     private final GroupService groupService;
     @PostMapping("/create")
-    public ResponseEntity<SubjectCreateResponseDto> create(@RequestBody SubjectRequestDto dto){
-        Subject subject = service.create(dto);
+    public ResponseEntity<SubjectCreateResponseDto> create(@RequestBody SubjectRequestDto dto,@RequestParam UUID branchId){
+        Subject subject = service.create(dto,branchId);
         String message = "is added to" + " " + subject.getBranch().getBranchName();
         SubjectCreateResponseDto response = SubjectMapper.entityCreateToDto(subject,message);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

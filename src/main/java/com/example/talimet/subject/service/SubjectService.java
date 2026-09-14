@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface SubjectService {
-    Subject create(SubjectRequestDto dto);
+    Subject create(SubjectRequestDto dto,UUID branchId);
     List<Subject> getAllSubjects();
     List<Subject> getSubjectsByStudent(UUID studentId,UUID branchId);
     List<Subject> getSubjectsByBranch( UUID branchId);

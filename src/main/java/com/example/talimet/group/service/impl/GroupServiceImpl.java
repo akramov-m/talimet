@@ -10,6 +10,10 @@ import com.example.talimet.group.repository.GroupRepository;
 import com.example.talimet.group.repository.interfaces.GroupsInfoProjectionByBranch;
 import com.example.talimet.group.repository.interfaces.GroupsInfoProjectionBySubject;
 import com.example.talimet.group.service.GroupService;
+import com.example.talimet.lesson.dto.response.GroupLessonBodyResponse;
+import com.example.talimet.lesson.entity.Lesson;
+import com.example.talimet.lesson.mapper.GroupLessonMapper;
+import com.example.talimet.lesson.service.GroupLessonService;
 import com.example.talimet.lessonDays.dto.response.LessonDaysResponseDto;
 import com.example.talimet.lessonDays.entity.LessonDays;
 import com.example.talimet.lessonDays.mapper.LessonDaysMapper;
@@ -34,11 +38,11 @@ public class GroupServiceImpl implements GroupService {
     private final StudentEnrollmentService studentService;
     private final TeacherEnrollmentService teacherService;
     private final LessonDaysService lessonDaysService;
-
+    private final GroupLessonService groupLessonService;
 
     @Override
-    public GroupCreateResponseDto create(GroupRequestDto dto) {
-        Subject subject = subjectRepository.findById(dto.subjectId())
+    public GroupCreateResponseDto create(GroupRequestDto dto,UUID subjectId) {
+        Subject subject = subjectRepository.findById(subjectId)
                 .orElseThrow(()->new NotFoundException("Subject not found"));
         Group group = GroupMapper.dtoToEntity(dto,subject);
         Group savedGroup = groupRepository.save(group);
@@ -77,7 +81,9 @@ public class GroupServiceImpl implements GroupService {
         Group group = groupRepository.findById(groupId).orElseThrow(()->new NotFoundException("Group not found!"));
         List<StudentsGroupInfoDto> students = studentService.getStudentsInfoByGroup(groupId);
         List<TeachersInfo> teachers = teacherService.getTeachersInfoByGroup(groupId);
-        GroupDetailsDto groupDetails = GroupMapper.detailsEntitiesToDto(group,students,teachers);
+        List<Lesson> lessons = groupLessonService.getLessonsByGroup(groupId);
+        List<GroupLessonBodyResponse> mappedLessons = lessons.stream().map(GroupLessonMapper::entityToDto).toList();
+        GroupDetailsDto groupDetails = GroupMapper.detailsEntitiesToDto(group,students,teachers,mappedLessons);
         return groupDetails;
     }
 

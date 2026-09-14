@@ -39,9 +39,11 @@ public class GroupController {
     private final GroupService groupService;
     private final StudentEnrollmentService studentEnrollmentService;
     private final LessonDaysService lessonDaysService;
+
+
     @PostMapping("/create")
-    public ResponseEntity<GroupCreateResponseDto> create(@RequestBody GroupRequestDto dto){
-        GroupCreateResponseDto group = groupService.create(dto);
+    public ResponseEntity<GroupCreateResponseDto> create(@RequestBody GroupRequestDto dto,@RequestParam UUID subjectId){
+        GroupCreateResponseDto group = groupService.create(dto,subjectId);
         return ResponseEntity.status(HttpStatus.CREATED).body(group);
     }
 
@@ -54,7 +56,7 @@ public class GroupController {
 
     @GetMapping("/{groupId}/students")
     public ResponseEntity<List<StudentsResponseDto>> getAllStudentEnrollmentsByGroup(@PathVariable UUID groupId){
-        List<User> students= studentEnrollmentService.studentEnrollmentsByGroup(groupId);
+        List<User> students= studentEnrollmentService.getStudentsByGroup(groupId);
         return ResponseEntity.ok(students.stream().map(StudentMapper::entityToGroupStudentDto).toList());
     }
 

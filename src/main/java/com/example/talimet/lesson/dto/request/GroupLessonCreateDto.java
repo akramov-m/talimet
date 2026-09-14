@@ -1,9 +1,6 @@
-package com.example.talimet.groupLesson.dto.request;
-
-import java.util.UUID;
+package com.example.talimet.lesson.dto.request;
 
 public record GroupLessonCreateDto(
-        UUID groupId,
         String title,
         String description,
         String lessonDate

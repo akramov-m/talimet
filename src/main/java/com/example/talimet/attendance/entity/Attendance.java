@@ -1,7 +1,7 @@
 package com.example.talimet.attendance.entity;
 
 import com.example.talimet.common.enums.AttendanceEnum;
-import com.example.talimet.groupLesson.entity.Lesson;
+import com.example.talimet.lesson.entity.Lesson;
 import com.example.talimet.studentEnrollment.entity.StudentEnrollment;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,12 +25,14 @@ public class Attendance{
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private LocalDateTime date;
-    private AttendanceEnum attendance;
 
-    @OneToOne
-    @JoinColumn(nullable = false,unique = true)
+    @ManyToOne
+    @JoinColumn(nullable = false,name = "lesson_id")
     private Lesson lesson;
     @ManyToOne
     @JoinColumn(nullable = false,name = "student_id")
     private StudentEnrollment student;
+
+    @Enumerated(EnumType.STRING)
+    private AttendanceEnum status;
 }

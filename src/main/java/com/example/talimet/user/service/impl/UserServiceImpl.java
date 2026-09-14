@@ -57,4 +57,9 @@ public class UserServiceImpl implements UserService {
         Long counts = userRepository.countOfUsers();
         return counts;
     }
+
+    @Override
+    public User getStudent(String username) {
+        return userRepository.getStudent(username).orElseThrow(()->new NotFoundException("User not found!"));
+    }
 }

@@ -9,7 +9,6 @@ public record GroupRequestDto(
         String name,
         String description,
         String lessonTime,
-        UUID subjectId,
         List<LessonDayCreateDto> lessonDays
 ) {
 }

@@ -3,6 +3,7 @@ package com.example.talimet.user.service;
 import com.example.talimet.common.enums.AccountStatus;
 import com.example.talimet.user.dto.request.UserChangeStatusRequest;
 import com.example.talimet.user.entity.User;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,4 +16,6 @@ public interface UserService {
     User activateUser(UUID userId);
     User changeUserStatus(UserChangeStatusRequest dto);
     Long countOfUsers();
+
+    User getStudent(@NotBlank String username);
 }

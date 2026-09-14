@@ -4,7 +4,6 @@ import java.util.UUID;
 
 public record SubjectRequestDto(
         String name,
-        String description,
-        UUID branchId
+        String description
 ) {
 }

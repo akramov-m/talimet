@@ -1,12 +1,14 @@
-package com.example.talimet.groupLesson.mapper;
+package com.example.talimet.lesson.mapper;
 
+import com.example.talimet.attendance.dto.response.StudentAttendanceResponse;
 import com.example.talimet.group.entity.Group;
-import com.example.talimet.groupLesson.dto.request.GroupLessonCreateDto;
-import com.example.talimet.groupLesson.dto.response.GroupLessonBodyResponse;
-import com.example.talimet.groupLesson.dto.response.GroupLessonCreateResponseDto;
-import com.example.talimet.groupLesson.entity.Lesson;
+import com.example.talimet.lesson.dto.request.GroupLessonCreateDto;
+import com.example.talimet.lesson.dto.response.GroupLessonBodyResponse;
+import com.example.talimet.lesson.dto.response.GroupLessonCreateResponseDto;
+import com.example.talimet.lesson.dto.response.GroupLessonDetails;
+import com.example.talimet.lesson.entity.Lesson;
 
-import java.util.UUID;
+import java.util.List;
 
 public class GroupLessonMapper {
     public static Lesson dtoToEntity(GroupLessonCreateDto dto, Group group){
@@ -37,6 +39,16 @@ public class GroupLessonMapper {
                 lesson.getGroup().getName(),
                 lesson.getLessonDate()
 
+        );
+    }
+
+    public static GroupLessonDetails detailsToDto(List<StudentAttendanceResponse> attendance,Lesson lesson){
+        return new GroupLessonDetails(
+                lesson.getId(),
+                lesson.getTitle(),
+                lesson.getDescription(),
+                lesson.getLessonDate(),
+                attendance
         );
     }
 }

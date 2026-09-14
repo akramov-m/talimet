@@ -5,6 +5,7 @@ import com.example.talimet.group.dto.response.*;
 import com.example.talimet.group.entity.Group;
 import com.example.talimet.group.repository.interfaces.GroupsInfoProjectionByBranch;
 import com.example.talimet.group.repository.interfaces.GroupsInfoProjectionBySubject;
+import com.example.talimet.lesson.dto.response.GroupLessonBodyResponse;
 import com.example.talimet.lessonDays.dto.response.LessonDaysResponseDto;
 import com.example.talimet.student.dto.response.StudentsGroupInfoDto;
 import com.example.talimet.subject.entity.Subject;
@@ -63,13 +64,16 @@ public class GroupMapper {
         );
     }
 
-    public static GroupDetailsDto detailsEntitiesToDto(Group group, List<StudentsGroupInfoDto> students, List<TeachersInfo> teachers){
+    public static GroupDetailsDto detailsEntitiesToDto(Group group, List<StudentsGroupInfoDto> students, List<TeachersInfo> teachers, List<GroupLessonBodyResponse> lessons){
         return new GroupDetailsDto(
                 group.getName(),
                 group.getDescription(),
                 group.getLessonTime(),
+                group.getLessonDays(),
                 teachers,
-                students
+                students,
+                lessons
+
         );
     }
 

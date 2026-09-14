@@ -44,4 +44,9 @@ public class TeacherEnrollmentServiceImpl implements TeacherEnrollmentService {
         List<TeachersInfo> mappedTeachers = teachers.stream().map(TeacherEnrollmentMapper::groupProjectionToInfo).toList();
         return mappedTeachers;
     }
+
+    @Override
+    public List<User> getTeachersByBranch(UUID branchId) {
+        return teacherRepository.getTeachersByBranchId(branchId);
+    }
 }

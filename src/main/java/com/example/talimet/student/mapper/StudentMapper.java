@@ -20,8 +20,7 @@ public class StudentMapper {
     public static StudentsResponseDto entityToGroupStudentDto(User entity){
         return new StudentsResponseDto(
                 entity.getId(),
-                entity.getFirstName(),
-                entity.getLastName(),
+                entity.getFirstName() + " " + entity.getLastName(),
                 entity.getUsername(),
                 entity.getPhoneNumber()
         );

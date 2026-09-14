@@ -42,14 +42,14 @@ public class StudentEnrollmentServiceImpl implements StudentEnrollmentService {
     }
 
     @Override
-    public List<User> studentEnrollmentsByGroup(UUID groupId) {
+    public List<User> getStudentsByGroup(UUID groupId) {
         List<User> studentEnrollments = studentEnrollmentRepository.getStudentEnrollmentsByGroup(groupId);
         return studentEnrollments;
     }
 
     @Override
-    public StudentEnrollment getStudentById(UUID studentId) {
-        StudentEnrollment student = studentEnrollmentRepository.getStudentById(studentId)
+    public StudentEnrollment getStudentByIdAndGroup(UUID studentId,UUID groupId) {
+        StudentEnrollment student = studentEnrollmentRepository.getStudentByIdAndGroup(studentId,groupId)
                 .orElseThrow(()->new NotFoundException("Student not found!"));
         return student;
     }
@@ -61,8 +61,8 @@ public class StudentEnrollmentServiceImpl implements StudentEnrollmentService {
     }
 
     @Override
-    public List<StudentEnrollment> getStudentsByBranch(UUID branchId) {
-        List<StudentEnrollment> students = studentEnrollmentRepository.getStudentsByBranch(branchId);
+    public List<User> getStudentsByBranch(UUID branchId) {
+        List<User> students = studentEnrollmentRepository.getStudentsByBranch(branchId);
         return students;
     }
 

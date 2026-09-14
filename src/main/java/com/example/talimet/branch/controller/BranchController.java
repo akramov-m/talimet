@@ -22,6 +22,10 @@ import com.example.talimet.subject.entity.Subject;
 import com.example.talimet.subject.mapper.SubjectMapper;
 import com.example.talimet.subject.repository.interfaces.SubjectInfoProjection;
 import com.example.talimet.subject.service.SubjectService;
+import com.example.talimet.teacher.dto.response.TeacherDto;
+import com.example.talimet.teacher.mapper.TeacherMapper;
+import com.example.talimet.teacherEnrollment.service.TeacherEnrollmentService;
+import com.example.talimet.user.entity.User;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,6 +48,7 @@ public class BranchController {
     private final SubjectService subjectService;
     private final StudentEnrollmentService studentService;
     private final GroupService groupService;
+    private final TeacherEnrollmentService teacherEnrollmentService;
     @PostMapping("/create")
     public ResponseEntity<BranchResponseCreateDto> create(@RequestBody BranchRequestDto dto){
         Branch branch = branchService.create(dto);
@@ -66,9 +71,9 @@ public class BranchController {
     }
 
     @GetMapping("/students")
-    public ResponseEntity<List<StudentResponseDto>> getStudentsByBranch(@RequestParam UUID branchId){
-        List<StudentEnrollment> students = studentService.getStudentsByBranch(branchId);
-        return ResponseEntity.ok(students.stream().map(StudentMapper::entityToStudentDto).collect(Collectors.toList()));
+    public ResponseEntity<List<StudentsResponseDto>> getStudentsByBranch(@RequestParam UUID branchId){
+        List<User> students = studentService.getStudentsByBranch(branchId);
+        return ResponseEntity.ok(students.stream().map(StudentMapper::entityToGroupStudentDto).collect(Collectors.toList()));
     }
 
     @GetMapping("/subjects/info")
@@ -82,5 +87,11 @@ public class BranchController {
     public ResponseEntity<List<GroupsInfoDtoByBranch>> getGroupsInfoByBranch(@RequestParam UUID branchId){
         List<GroupsInfoProjectionByBranch> groups = groupService.getGroupsInfoByBranch(branchId);
         return ResponseEntity.ok(groups.stream().map(GroupMapper::projectionToDtoByBranch).toList());
+    }
+
+    @GetMapping("/teachers")
+    public ResponseEntity<List<TeacherDto>> getTeachersByBranch(@RequestParam UUID branchId){
+        List<User> teachers = teacherEnrollmentService.getTeachersByBranch(branchId);
+        return ResponseEntity.ok(teachers.stream().map(TeacherMapper::entityToDto).toList());
     }
 }

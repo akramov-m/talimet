@@ -26,8 +26,9 @@ public interface StudentEnrollmentRepository extends JpaRepository<StudentEnroll
     SELECT DISTINCT se
     FROM StudentEnrollment se
     WHERE se.student.id =:studentId
+        AND se.group.id =:groupId
     """)
-    Optional<StudentEnrollment> getStudentById(@Param("studentId") UUID studentId);
+    Optional<StudentEnrollment> getStudentByIdAndGroup(@Param("studentId") UUID studentId,@Param("groupId") UUID groupId);
 
     @Query("""
     SELECT COUNT(DISTINCT se.student.id)
@@ -36,13 +37,13 @@ public interface StudentEnrollmentRepository extends JpaRepository<StudentEnroll
     Long countOfStudents();
 
     @Query("""
-    SELECT DISTINCT se
+    SELECT DISTINCT se.student
     FROM StudentEnrollment se
     JOIN se.group g
     JOIN g.subject s
     WHERE s.branch.id = :branchId
     """)
-    List<StudentEnrollment> getStudentsByBranch(@Param("branchId") UUID branchId);
+    List<User> getStudentsByBranch(@Param("branchId") UUID branchId);
 
 
     @Query("""

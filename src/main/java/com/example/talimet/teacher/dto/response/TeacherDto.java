@@ -1,8 +1,8 @@
-package com.example.talimet.student.dto.response;
+package com.example.talimet.teacher.dto.response;
 
 import java.util.UUID;
 
-public record StudentsResponseDto(
+public record TeacherDto(
         UUID id,
         String fullName,
         String username,

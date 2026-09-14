@@ -12,9 +12,9 @@ import java.util.UUID;
 
 public interface StudentEnrollmentService {
     StudentEnrollment create(StudentEnrollmentRequestDto dto);
-    List<User> studentEnrollmentsByGroup(UUID groupId);
-    StudentEnrollment getStudentById(UUID studentId);
+    List<User> getStudentsByGroup(UUID groupId);
+    StudentEnrollment getStudentByIdAndGroup(UUID studentId,UUID groupId);
     Long countOfStudents();
-    List<StudentEnrollment> getStudentsByBranch(UUID branchId);
+    List<User> getStudentsByBranch(UUID branchId);
     List<StudentsGroupInfoDto> getStudentsInfoByGroup(UUID groupId);
 }
