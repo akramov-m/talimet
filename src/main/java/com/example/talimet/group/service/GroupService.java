@@ -1,11 +1,13 @@
 package com.example.talimet.group.service;
 
+import com.example.talimet.group.dto.request.GroupJoinRequestDto;
 import com.example.talimet.group.dto.request.GroupRequestDto;
 import com.example.talimet.group.dto.response.GroupCreateResponseDto;
 import com.example.talimet.group.dto.response.GroupDetailsDto;
 import com.example.talimet.group.entity.Group;
 import com.example.talimet.group.repository.interfaces.GroupsInfoProjectionByBranch;
 import com.example.talimet.group.repository.interfaces.GroupsInfoProjectionBySubject;
+import com.example.talimet.user.entity.User;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,5 +20,5 @@ public interface GroupService {
     List<GroupsInfoProjectionBySubject> getGroupsInfoProjection(UUID subjectId);
     GroupDetailsDto getGroupDetailsById(UUID groupId);
     List<GroupsInfoProjectionByBranch> getGroupsInfoByBranch(UUID branchId);
-
+    User joinGroup(GroupJoinRequestDto dto);
 }

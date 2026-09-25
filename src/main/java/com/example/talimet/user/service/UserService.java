@@ -18,4 +18,5 @@ public interface UserService {
     Long countOfUsers();
 
     User getStudent(@NotBlank String username);
+    User getUser(@NotBlank String username);
 }

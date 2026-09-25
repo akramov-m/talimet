@@ -14,7 +14,15 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "student_enrollments")
+@Table(
+        name = "student_enrollments",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_student_group",
+                        columnNames = {"student_id", "group_id"}
+                )
+        }
+)
 @Setter
 @Getter
 @AllArgsConstructor
@@ -25,12 +33,12 @@ public class StudentEnrollment {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", nullable = false)
     private User student;
 
-    @ManyToOne
-    @JoinColumn(name = "group_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Group group;
 

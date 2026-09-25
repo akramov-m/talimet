@@ -1,6 +1,10 @@
 package com.example.talimet.group.service.impl;
 
+import com.example.talimet.attendance.repository.StudentAttendanceRepository;
+import com.example.talimet.common.enums.Role;
+import com.example.talimet.common.exception.BadRequestException;
 import com.example.talimet.common.exception.NotFoundException;
+import com.example.talimet.group.dto.request.GroupJoinRequestDto;
 import com.example.talimet.group.dto.request.GroupRequestDto;
 import com.example.talimet.group.dto.response.GroupCreateResponseDto;
 import com.example.talimet.group.dto.response.GroupDetailsDto;
@@ -19,11 +23,19 @@ import com.example.talimet.lessonDays.entity.LessonDays;
 import com.example.talimet.lessonDays.mapper.LessonDaysMapper;
 import com.example.talimet.lessonDays.service.LessonDaysService;
 import com.example.talimet.student.dto.response.StudentsGroupInfoDto;
+import com.example.talimet.studentEnrollment.entity.StudentEnrollment;
+import com.example.talimet.studentEnrollment.mapper.StudentEnrollmentMapper;
+import com.example.talimet.studentEnrollment.repository.StudentEnrollmentRepository;
 import com.example.talimet.studentEnrollment.service.StudentEnrollmentService;
 import com.example.talimet.subject.entity.Subject;
 import com.example.talimet.subject.repository.SubjectRepository;
 import com.example.talimet.teacherEnrollment.dto.response.TeachersInfo;
+import com.example.talimet.teacherEnrollment.entity.TeacherEnrollment;
+import com.example.talimet.teacherEnrollment.mapper.TeacherEnrollmentMapper;
+import com.example.talimet.teacherEnrollment.repository.TeacherEnrollmentRepository;
 import com.example.talimet.teacherEnrollment.service.TeacherEnrollmentService;
+import com.example.talimet.user.entity.User;
+import com.example.talimet.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +51,9 @@ public class GroupServiceImpl implements GroupService {
     private final TeacherEnrollmentService teacherService;
     private final LessonDaysService lessonDaysService;
     private final GroupLessonService groupLessonService;
+    private final UserRepository userRepository;
+    private final StudentEnrollmentRepository studentEnrollmentRepository;
+    private final TeacherEnrollmentRepository teacherEnrollmentRepository;
 
     @Override
     public GroupCreateResponseDto create(GroupRequestDto dto,UUID subjectId) {
@@ -91,5 +106,35 @@ public class GroupServiceImpl implements GroupService {
     public List<GroupsInfoProjectionByBranch> getGroupsInfoByBranch(UUID branchId) {
         List<GroupsInfoProjectionByBranch> groups = groupRepository.getGroupsInfoByBranch(branchId);
         return groups;
+    }
+
+    @Override
+    public User joinGroup(GroupJoinRequestDto dto) {
+        User user = userRepository.findById(dto.userId())
+                .orElseThrow(() -> new NotFoundException("User not found!"));
+
+        Group group = groupRepository.findById(dto.groupId())
+                .orElseThrow(() -> new NotFoundException("Group not found!"));
+
+        if (user.getRole() == Role.STUDENT) {
+            StudentEnrollment student =
+                    StudentEnrollmentMapper.dtoToEntity(user, group);
+
+            StudentEnrollment savedStudent =
+                    studentEnrollmentRepository.save(student);
+
+            return savedStudent.getStudent();
+
+        } else if (user.getRole() == Role.TEACHER) {
+            TeacherEnrollment teacher =
+                    TeacherEnrollmentMapper.createDtoToEntity(user, group);
+
+            TeacherEnrollment savedTeacher =
+                    teacherEnrollmentRepository.save(teacher);
+
+            return savedTeacher.getTeacher();
+        }
+
+        throw new BadRequestException("User role cannot join a group!");
     }
 }

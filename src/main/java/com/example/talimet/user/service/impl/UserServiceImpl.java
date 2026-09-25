@@ -62,4 +62,9 @@ public class UserServiceImpl implements UserService {
     public User getStudent(String username) {
         return userRepository.getStudent(username).orElseThrow(()->new NotFoundException("User not found!"));
     }
+
+    @Override
+    public User getUser(String username){
+        return userRepository.getUser(username).orElseThrow(()->new NotFoundException("User not found!"));
+    }
 }

@@ -6,6 +6,7 @@ import com.example.talimet.eduCenter.dto.response.EduCenterResponseDto;
 import com.example.talimet.eduCenter.entity.EduCenter;
 import com.example.talimet.eduCenter.mapper.EduCenterMapper;
 import com.example.talimet.eduCenter.service.EduService;
+import com.example.talimet.user.dto.response.UserDto;
 import com.example.talimet.user.dto.response.UserResponseDto;
 import com.example.talimet.user.entity.User;
 import com.example.talimet.user.mapper.UserMapper;
@@ -45,5 +46,13 @@ public class UserController {
     public ResponseEntity<List<EduCenterResponseDto>> getEduCentersByUser(@RequestParam UUID userId,@RequestParam Role role ){
         List<EduCenter> eduCenters = eduService.getEduCentersByUser(userId,role);
         return ResponseEntity.ok(eduCenters.stream().map(EduCenterMapper::entityToDto).collect(Collectors.toList()));
+    }
+
+
+    @GetMapping("/user")
+    public ResponseEntity<UserDto> getUser(@RequestParam String username){
+        User user = service.getUser(username);
+        UserDto response = UserMapper.entityToUserDto(user);
+        return ResponseEntity.ok(response);
     }
 }

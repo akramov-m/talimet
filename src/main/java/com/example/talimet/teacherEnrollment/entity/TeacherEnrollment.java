@@ -13,7 +13,15 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.util.UUID;
 
 @Entity
-@Table(name = "teacher_enrollments")
+@Table(
+        name = "teacher_enrollments",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_teacher_group",
+                        columnNames = {"teacher_id", "group_id"}
+                )
+        }
+)
 @Setter
 @Getter
 @AllArgsConstructor
@@ -24,12 +32,12 @@ public class TeacherEnrollment {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToOne
-    @JoinColumn(name = "teacher_id",unique = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id", nullable = false)
     private User teacher;
 
-    @ManyToOne
-    @JoinColumn(name = "group_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Group group;
 }

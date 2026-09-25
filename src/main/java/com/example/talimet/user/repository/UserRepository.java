@@ -26,4 +26,10 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     WHERE u.username=:username AND u.role = 'STUDENT'
     """)
     Optional<User> getStudent(@Param("username") String username);
+
+    @Query("""
+    SELECT u FROM User u
+    WHERE u.username=:username AND u.role !='OWNER'
+    """)
+    Optional<User> getUser(@Param("username") String username);
 }

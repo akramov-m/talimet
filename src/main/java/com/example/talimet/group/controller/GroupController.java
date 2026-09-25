@@ -1,6 +1,7 @@
 package com.example.talimet.group.controller;
 
 
+import com.example.talimet.group.dto.request.GroupJoinRequestDto;
 import com.example.talimet.group.dto.request.GroupRequestDto;
 import com.example.talimet.group.dto.response.*;
 import com.example.talimet.group.entity.Group;
@@ -11,6 +12,7 @@ import com.example.talimet.lessonDays.entity.LessonDays;
 import com.example.talimet.lessonDays.service.LessonDaysService;
 import com.example.talimet.student.dto.response.StudentsResponseDto;
 import com.example.talimet.student.mapper.StudentMapper;
+import com.example.talimet.studentEnrollment.dto.request.StudentEnrollmentRequestDto;
 import com.example.talimet.studentEnrollment.dto.response.StudentEnrollmentCreateResponseDto;
 import com.example.talimet.studentEnrollment.entity.StudentEnrollment;
 import com.example.talimet.studentEnrollment.mapper.StudentEnrollmentMapper;
@@ -45,6 +47,13 @@ public class GroupController {
     public ResponseEntity<GroupCreateResponseDto> create(@RequestBody GroupRequestDto dto,@RequestParam UUID subjectId){
         GroupCreateResponseDto group = groupService.create(dto,subjectId);
         return ResponseEntity.status(HttpStatus.CREATED).body(group);
+    }
+    @PostMapping("/join-group")
+    public ResponseEntity<GroupAcceptMemberResponseDto> joinGroup(@RequestBody GroupJoinRequestDto dto){
+        User user = groupService.joinGroup(dto);
+        String message = user.getFirstName()+ " " + user.getLastName() + " " + " joined successfully";
+        GroupAcceptMemberResponseDto response = new GroupAcceptMemberResponseDto(message);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
